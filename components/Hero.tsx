@@ -26,12 +26,15 @@ export default function Hero() {
       {/* Background image */}
       <div aria-hidden className="absolute inset-0 -z-10">
         <Image
-          src="/images/GARE_1.jpg" // put the file in /public/media
-          alt=""
+          src="/images/GARE_1.JPG"
+          alt="Aménagement paysager professionnel ADND Groupe Saisonnier"
           fill
           priority
           sizes="100vw"
           className="object-cover object-center"
+          quality={90}
+          placeholder="blur"
+          blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
         />
         {/* soft white scrim for legibility */}
         <div className="absolute inset-0 bg-gradient-to-t from-white via-white/60 to-white/20" />
