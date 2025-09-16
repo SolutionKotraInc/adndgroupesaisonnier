@@ -2,10 +2,12 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 export default function QuickDock() {
   const [show, setShow] = useState(false);
   const pathname = usePathname();
+  const { t } = useLanguage();
 
   useEffect(() => {
     const on = () => setShow(window.scrollY > 400);
@@ -34,7 +36,7 @@ export default function QuickDock() {
             }`}
           >
             <img src="/logo-white.svg" alt="ADND" className="w-6 h-6" />
-            <span className="text-sm font-medium">Accueil</span>
+            <span className="text-sm font-medium">{t('quickdock.home')}</span>
           </Link>
           
           <div className="h-6 w-px bg-white/20" />
@@ -47,7 +49,7 @@ export default function QuickDock() {
                 : 'text-white/80 hover:text-white hover:bg-white/10'
             }`}
           >
-            Services
+            {t('nav.services')}
           </Link>
           
           <Link 
@@ -58,7 +60,7 @@ export default function QuickDock() {
                 : 'text-white/80 hover:text-white hover:bg-white/10'
             }`}
           >
-            Projets
+            {t('nav.projects')}
           </Link>
           
           <Link 
@@ -69,7 +71,7 @@ export default function QuickDock() {
                 : 'text-white/80 hover:text-white hover:bg-white/10'
             }`}
           >
-            Équipe
+            {t('nav.team')}
           </Link>
           
           <div className="h-6 w-px bg-white/20" />
@@ -82,7 +84,7 @@ export default function QuickDock() {
                 : 'bg-emerald-500/80 text-white hover:bg-emerald-500'
             }`}
           >
-            Soumission
+            {t('nav.quote')}
           </Link>
         </div>
       )}

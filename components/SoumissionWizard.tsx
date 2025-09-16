@@ -17,6 +17,7 @@ import {
   Trash2,
 } from "lucide-react";
 import { SERVICES } from "../lib/data";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 /* ----------------------------------------------------------
    Types & initial
@@ -146,6 +147,7 @@ function PhotoUploader({
    Main
 ---------------------------------------------------------- */
 export default function SoumissionWizard() {
+  const { t } = useLanguage();
   const [data, setData] = useState<FormDataT>(initial);
   const [files, setFiles] = useState<File[]>([]);
   const [step, setStep] = useState(0);
@@ -197,7 +199,7 @@ ${data.message || "—"}
 
   return (
     <section className="relative">
-      {/* Background soft gradient (pas d’overflow hidden pour garder le scroll) */}
+      {/* Background soft gradient (pas d'overflow hidden pour garder le scroll) */}
       <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
         <div className="absolute inset-0 bg-gradient-to-b from-emerald-50 via-white to-white" />
         <div className="absolute -left-24 -top-40 h-[28rem] w-[28rem] rounded-full bg-emerald-300/20 blur-3xl" />
@@ -205,10 +207,36 @@ ${data.message || "—"}
       </div>
 
       <div className="mx-auto max-w-6xl px-4 py-16 md:py-20">
-        <div className="mb-8 flex items-center justify-between">
+        {/* Intro Section */}
+        <div className="mb-12 text-center">
           <h1 className="text-3xl font-semibold tracking-tight text-gray-900 md:text-5xl">
-            Demander une soumission
+            {t('quote.title')}
           </h1>
+          <p className="mt-4 text-lg text-gray-600 max-w-2xl mx-auto">
+            {t('quote.subtitle')}
+          </p>
+          <div className="mt-8 flex flex-wrap justify-center gap-4 text-sm text-gray-500">
+            <div className="flex items-center gap-2">
+              <div className="h-2 w-2 rounded-full bg-emerald-500"></div>
+              <span>{t('quote.free')}</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <div className="h-2 w-2 rounded-full bg-emerald-500"></div>
+              <span>{t('quote.response')}</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <div className="h-2 w-2 rounded-full bg-emerald-500"></div>
+              <span>{t('quote.detailed')}</span>
+            </div>
+          </div>
+        </div>
+
+        <div className="mb-8 flex items-center justify-between">
+          <h2 className="text-xl font-medium text-gray-800">
+            {step === 0 && t('form.personal.info')}
+            {step === 1 && t('form.review.submit')}
+            {step === 2 && t('form.success')}
+          </h2>
           <Stepper step={step} />
         </div>
 
@@ -225,14 +253,13 @@ ${data.message || "—"}
                   exit={{ opacity: 0, y: -8 }}
                 >
                   <p className="text-gray-700">
-                    Laissez-nous quelques infos — on revient rapidement avec une
-                    proposition claire.
+                    {t('form.description')}
                   </p>
 
                   <div className="mt-6 grid gap-4 md:grid-cols-2">
                     <label className="group relative">
                       <span className="mb-1 flex items-center gap-2 text-sm text-gray-600">
-                        <Mail className="h-4 w-4 text-emerald-600" /> Courriel *
+                        <Mail className="h-4 w-4 text-emerald-600" /> {t('form.email')} *
                       </span>
                       <input
                         className="w-full rounded-xl border border-black/10 px-4 py-3 outline-none transition focus:border-emerald-300 focus:bg-emerald-50/30"
@@ -250,7 +277,7 @@ ${data.message || "—"}
                         <span className="inline-flex h-4 w-4 items-center justify-center rounded-sm bg-emerald-600 text-white">
                           <span className="text-[10px]">A</span>
                         </span>{" "}
-                        Nom complet *
+                        {t('form.name')} *
                       </span>
                       <input
                         className="w-full rounded-xl border border-black/10 px-4 py-3 outline-none transition focus:border-emerald-300 focus:bg-emerald-50/30"
@@ -264,7 +291,7 @@ ${data.message || "—"}
 
                     <label className="group relative">
                       <span className="mb-1 flex items-center gap-2 text-sm text-gray-600">
-                        <Phone className="h-4 w-4 text-sky-600" /> Téléphone
+                        <Phone className="h-4 w-4 text-sky-600" /> {t('form.phone')}
                       </span>
                       <input
                         className="w-full rounded-xl border border-black/10 px-4 py-3 outline-none transition focus:border-sky-300 focus:bg-sky-50/30"
@@ -278,7 +305,7 @@ ${data.message || "—"}
 
                     <label className="group relative">
                       <span className="mb-1 flex items-center gap-2 text-sm text-gray-600">
-                        <Building2 className="h-4 w-4 text-purple-600" /> Ville
+                        <Building2 className="h-4 w-4 text-purple-600" /> {t('form.city')}
                       </span>
                       <input
                         className="w-full rounded-xl border border-black/10 px-4 py-3 outline-none transition focus:border-purple-300 focus:bg-purple-50/30"
@@ -292,7 +319,7 @@ ${data.message || "—"}
 
                     <label className="group relative md:col-span-2">
                       <span className="mb-1 flex items-center gap-2 text-sm text-gray-600">
-                        <MapPin className="h-4 w-4 text-rose-600" /> Adresse
+                        <MapPin className="h-4 w-4 text-rose-600" /> {t('form.address')}
                       </span>
                       <input
                         className="w-full rounded-xl border border-black/10 px-4 py-3 outline-none transition focus:border-rose-300 focus:bg-rose-50/30"
@@ -307,7 +334,7 @@ ${data.message || "—"}
 
                   <div className="mt-6">
                     <div className="mb-2 text-sm font-medium text-gray-800">
-                      Services désirés
+                      {t('form.services.needed')}
                     </div>
                     <div className="flex flex-wrap gap-2">
                       {SERVICES.map((s) => {
@@ -362,7 +389,7 @@ ${data.message || "—"}
 
                     <div className="mt-6">
                       <div className="mb-2 text-sm font-medium text-gray-800">
-                        Ajouter des photos
+                        {t('form.upload.photos')}
                       </div>
                       <PhotoUploader files={files} setFiles={setFiles} />
                     </div>
@@ -374,7 +401,7 @@ ${data.message || "—"}
                       disabled={!canContinue}
                       className="rounded-full bg-emerald-600 px-5 py-3 font-medium text-white disabled:opacity-50"
                     >
-                      Continuer
+                      {t('form.next')}
                     </button>
                   </div>
                 </motion.div>
@@ -388,7 +415,7 @@ ${data.message || "—"}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -8 }}
                 >
-                  <h3 className="font-semibold">Vérification</h3>
+                  <h3 className="font-semibold">{t('form.review.submit')}</h3>
                   <div className="mt-3 whitespace-pre-line rounded-2xl bg-black/5 p-4 text-sm text-gray-700">
                     {`Nom: ${data.name}
 Courriel: ${data.email}
@@ -403,7 +430,7 @@ ${data.message || "—"}`}
                   {files.length > 0 && (
                     <div className="mt-4">
                       <div className="mb-2 text-sm font-medium text-gray-800">
-                        Photos jointes
+                        {t('form.upload.photos')}
                       </div>
                       <div className="grid grid-cols-3 gap-2 sm:grid-cols-4">
                         {files.map((f, i) => (
@@ -428,20 +455,20 @@ ${data.message || "—"}`}
                       onClick={() => setStep(0)}
                       className="rounded-full border border-black/10 px-4 py-2 hover:bg-black/5"
                     >
-                      Modifier
+                      {t('form.previous')}
                     </button>
                     <button
                       onClick={() => navigator.clipboard.writeText(mailBody)}
                       className="rounded-full border border-black/10 px-5 py-3 hover:bg-black/5"
                     >
-                      Copier le message
+                      {t('form.copy.message')}
                     </button>
                     <button
                       onClick={sendFromSite}
                       disabled={sending}
                       className="rounded-full bg-emerald-600 px-5 py-3 font-medium text-white disabled:opacity-50"
                     >
-                      Envoyer maintenant
+                      {t('form.submit')}
                     </button>
                   </div>
                 </motion.div>
@@ -457,23 +484,23 @@ ${data.message || "—"}`}
                 >
                   <div className="text-center">
                     <h3 className="mt-2 text-lg font-semibold">
-                      Merci! Votre demande a été envoyée.
+                      {t('form.success')}
                     </h3>
                     <p className="mt-2 text-gray-700">
-                      Nous vous répondrons rapidement.
+                      {t('form.success.message')}
                     </p>
                     <div className="mt-6 flex justify-center gap-3">
                       <a
                         href="/soumission"
                         className="rounded-full border border-black/10 px-5 py-3 hover:bg-black/5"
                       >
-                        Refaire une demande
+                        {t('form.new.request')}
                       </a>
                       <a
                         href="/"
                         className="rounded-full bg-emerald-600 px-5 py-3 text-white"
                       >
-                        Retour à l’accueil
+                        {t('form.back.home')}
                       </a>
                     </div>
                   </div>
@@ -482,25 +509,91 @@ ${data.message || "—"}`}
             </AnimatePresence>
           </div>
 
-          {/* Colonne droite (visuel simple) */}
+          {/* Colonne droite (galerie de projets) */}
           <div>
-            <div className="rounded-3xl border border-emerald-200 bg-gradient-to-br from-emerald-400 to-emerald-600 p-6 shadow-lg">
-              <div className="grid grid-cols-2 gap-4 md:grid-cols-3">
-                {[80, 140, 64, 96, 72].map((s, i) => (
-                  <div
-                    key={i}
-                    className="relative aspect-[4/3] overflow-hidden rounded-2xl bg-white/10"
-                  >
-                    <div
-                      className="absolute -right-6 -top-6 rounded-full bg-white/25"
-                      style={{ width: s, height: s }}
-                    />
-                    <div
-                      className="absolute -bottom-6 -left-6 rounded-full bg-white/15"
-                      style={{ width: (s * 2) / 3, height: (s * 2) / 3 }}
-                    />
+            <div className="rounded-3xl border border-emerald-200 bg-gradient-to-br from-emerald-50 to-white p-6 shadow-lg">
+              <h3 className="mb-4 text-lg font-semibold text-gray-800">
+                {t('quote.projects.title')}
+              </h3>
+              <div className="grid grid-cols-2 gap-3 md:grid-cols-3">
+                {/* Images des 4 projets sélectionnés */}
+                <div className="group relative aspect-[4/3] overflow-hidden rounded-xl">
+                  <img
+                    src="/projets/3075 Boul. Mascouche/IMG_0124.jpg"
+                    alt="3075 Boul. Mascouche"
+                    className="h-full w-full object-cover transition group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-black/20 opacity-0 transition group-hover:opacity-100" />
+                  <div className="absolute bottom-2 left-2 text-xs font-medium text-white opacity-0 transition group-hover:opacity-100">
+                    3075 Boul. Mascouche
                   </div>
-                ))}
+                </div>
+                
+                <div className="group relative aspect-[4/3] overflow-hidden rounded-xl">
+                  <img
+                    src="/projets/DKJ Gascon Inc./IMG_0487.jpg"
+                    alt="DKJ Gascon Inc."
+                    className="h-full w-full object-cover transition group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-black/20 opacity-0 transition group-hover:opacity-100" />
+                  <div className="absolute bottom-2 left-2 text-xs font-medium text-white opacity-0 transition group-hover:opacity-100">
+                    DKJ Gascon Inc.
+                  </div>
+                </div>
+                
+                <div className="group relative aspect-[4/3] overflow-hidden rounded-xl">
+                  <img
+                    src="/projets/Plateau de la gare/IMG_0523.jpg"
+                    alt="Plateau de la Gare"
+                    className="h-full w-full object-cover transition group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-black/20 opacity-0 transition group-hover:opacity-100" />
+                  <div className="absolute bottom-2 left-2 text-xs font-medium text-white opacity-0 transition group-hover:opacity-100">
+                    Plateau de la Gare
+                  </div>
+                </div>
+                
+                <div className="group relative aspect-[4/3] overflow-hidden rounded-xl">
+                  <img
+                    src="/projets/Station G/IMG_7248.JPG"
+                    alt="Station G"
+                    className="h-full w-full object-cover transition group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-black/20 opacity-0 transition group-hover:opacity-100" />
+                  <div className="absolute bottom-2 left-2 text-xs font-medium text-white opacity-0 transition group-hover:opacity-100">
+                    Station G
+                  </div>
+                </div>
+                
+                <div className="group relative aspect-[4/3] overflow-hidden rounded-xl">
+                  <img
+                    src="/projets/3075 Boul. Mascouche/IMG_0125.jpg"
+                    alt="3075 Boul. Mascouche"
+                    className="h-full w-full object-cover transition group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-black/20 opacity-0 transition group-hover:opacity-100" />
+                </div>
+                
+                <div className="group relative aspect-[4/3] overflow-hidden rounded-xl">
+                  <img
+                    src="/projets/DKJ Gascon Inc./IMG_0488.jpg"
+                    alt="DKJ Gascon Inc."
+                    className="h-full w-full object-cover transition group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-black/20 opacity-0 transition group-hover:opacity-100" />
+                </div>
+              </div>
+              
+              <div className="mt-4 text-center">
+                <a
+                  href="/projets"
+                  className="inline-flex items-center gap-2 text-sm font-medium text-emerald-600 hover:text-emerald-700"
+                >
+                  {t('quote.see.all')}
+                  <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
+                </a>
               </div>
             </div>
           </div>

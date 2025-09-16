@@ -8,10 +8,12 @@ import {
   useReducedMotion,
 } from "framer-motion";
 import Image from "next/image";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 export default function ParallaxSection() {
   const ref = useRef<HTMLDivElement | null>(null);
   const reduce = useReducedMotion();
+  const { t } = useLanguage();
 
   // Progress is 0 when the section enters viewport, 1 when it leaves
   const { scrollYProgress } = useScroll({
@@ -33,7 +35,7 @@ export default function ParallaxSection() {
   return (
     <section
       ref={ref}
-      aria-label="Design & performance écologique"
+      aria-label={t('ecodesign.subtitle')}
       className="relative overflow-hidden bg-[#f4f8f4]"
     >
       {/* BG subtle gradient to give depth */}
@@ -73,17 +75,13 @@ export default function ParallaxSection() {
         {/* Text */}
         <div>
           <span className="block text-sm md:text-base font-semibold tracking-widest text-emerald-700">
-            Design & performance écologique
+            {t('ecodesign.subtitle')}
           </span>
           <h2 className="mt-2 text-3xl md:text-5xl font-semibold text-slate-900">
-            Design & performance{" "}
-            <span className="text-emerald-700">écologique</span>
+            {t('ecodesign.title')}
           </h2>
           <p className="mt-4 text-slate-700 text-base md:text-lg leading-relaxed max-w-[55ch]">
-            Nous combinons l’architecture paysagère, des matériaux durables et
-            un sens du détail pour créer des lieux où il fait bon vivre. Nos
-            équipes accompagnent votre projet de A à Z : conception 3D, gestion
-            de chantier, plantations et entretien.
+            {t('ecodesign.description')}
           </p>
         </div>
 
@@ -95,7 +93,7 @@ export default function ParallaxSection() {
           <div className="aspect-[16/10] w-full">
             <Image
               src="/images/IMG_8012.jpg"
-              alt="Jardin contemporain"
+              alt={t('parallax.alt')}
               width={1600}
               height={1000}
               sizes="(max-width: 768px) 100vw, 50vw"

@@ -1,4 +1,10 @@
+"use client";
+
+import { useLanguage } from "@/contexts/LanguageContext";
+
 export default function SocialsBar() {
+  const { t } = useLanguage();
+  
   const socials = [
     { href: "https://instagram.com/adndgroupesaisonnier", label: "Instagram" },
     {
@@ -14,7 +20,7 @@ export default function SocialsBar() {
     <section className="py-6 bg-gradient-to-r from-brand-200 flex align-center to-brand-100">
       <div className="mx-auto max-w-7xl px-4 flex flex-wrap items-center gap-4">
         <h3 className="text-xl font-semibold text-gray-900">
-          Suivez nos projets en direct
+          {t('socials.title')}
         </h3>
         <div className="flex gap-3">
           {socials.map((s) => (

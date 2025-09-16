@@ -1,54 +1,51 @@
+"use client";
+
 // components/Testimonials.tsx
 import { Mail } from "lucide-react";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 type Testimonial = {
-  quote: string;
+  quoteKey: string;
   name: string;
-  role: string;
+  roleKey: string;
   rating?: number; // 1..5
 };
 
 const TESTIMONIALS: Testimonial[] = [
   {
-    quote:
-      "Travail impeccable et d’une propreté rare. L’équipe a respecté les délais malgré la météo – on recommande à 100%.",
+    quoteKey: "testimonials.1.quote",
     name: "Ariane Dubois",
-    role: "Longueuil",
+    roleKey: "testimonials.1.role",
     rating: 5,
   },
   {
-    quote:
-      "Communication claire, conseils avisés et rendu final au-dessus des attentes. Super expérience du début à la fin.",
+    quoteKey: "testimonials.2.quote",
     name: "Jules Caron",
-    role: "Brossard",
+    roleKey: "testimonials.2.role",
     rating: 5,
   },
   {
-    quote:
-      "Service client A1. Ils ont transformé notre cour en un espace chaleureux et facile à entretenir.",
+    quoteKey: "testimonials.3.quote",
     name: "Maya Tremblay",
-    role: "Saint-Lambert",
+    roleKey: "testimonials.3.role",
     rating: 5,
   },
   {
-    quote:
-      "Exécution très professionnelle. Le suivi après-projet fait toute la différence. Merci!",
+    quoteKey: "testimonials.4.quote",
     name: "Olivier Gagnon",
-    role: "La Prairie",
+    roleKey: "testimonials.4.role",
     rating: 5,
   },
   {
-    quote:
-      "De la conception à l’entretien, tout est fluide. On sent la rigueur et la passion.",
+    quoteKey: "testimonials.5.quote",
     name: "Sophie Roy",
-    role: "Candiac",
+    roleKey: "testimonials.5.role",
     rating: 5,
   },
   {
-    quote:
-      "Prix justes, équipe ponctuelle, résultat durable. On les rappellera pour la phase 2.",
+    quoteKey: "testimonials.6.quote",
     name: "Karim B.",
-    role: "Boucherville",
+    roleKey: "testimonials.6.role",
     rating: 5,
   },
 ];
@@ -69,6 +66,8 @@ function Star({ filled }: { filled: boolean }) {
 }
 
 export default function Testimonials() {
+  const { t: translate } = useLanguage();
+  
   // on duplique la liste pour un défilement sans couture (200% de largeur)
   const track = [...TESTIMONIALS, ...TESTIMONIALS];
 
@@ -83,14 +82,14 @@ export default function Testimonials() {
 
       <header className="mb-10 text-center">
         <p className="text-sm font-medium tracking-widest text-emerald-700">
-          TÉMOIGNAGES
+          {translate('testimonials.title').toUpperCase()}
         </p>
         <h2 className="mt-2 text-3xl font-semibold tracking-tight text-slate-900 md:text-5xl">
-          Des clients qui reviennent, saison après saison.
+          {translate('testimonials.subtitle')}
         </h2>
         <p className="mx-auto mt-3 max-w-2xl text-slate-600">
-          Qualité, propreté, respect des délais et suivi soigné — notre
-          promesse, validée sur le terrain.
+          Quality, cleanliness, respect for deadlines and careful follow-up — our
+          promise, validated in the field.
         </p>
       </header>
 
@@ -115,41 +114,41 @@ export default function Testimonials() {
       {/* slider de cartes (CSS marquee-cards) */}
       <div className="marquee-cards">
         <ul className="marquee-track">
-          {track.map((t, i) => (
-            <li
-              key={i}
-              className="card-glass soft-shadow w-[320px] shrink-0 rounded-2xl border border-white/60 p-5"
-            >
-              <div className="flex items-center gap-3">
-                <div
-                  className={`grid h-10 w-10 place-items-center rounded-full text-sm font-semibold text-white ${
-                    [
-                      "bg-emerald-600",
-                      "bg-sky-600",
-                      "bg-rose-600",
-                      "bg-amber-600",
-                      "bg-violet-600",
-                      "bg-teal-600",
-                    ][i % 6]
-                  }`}
-                >
-                  {t.name
-                    .split(" ")
-                    .map((n) => n[0])
-                    .join("")
-                    .slice(0, 2)}
-                </div>
-                <div>
-                  <div className="font-medium text-slate-900">{t.name}</div>
-                  <div className="text-xs text-slate-500">{t.role}</div>
-                </div>
+        {track.map((testimonial, i) => (
+          <li
+            key={i}
+            className="card-glass soft-shadow w-[320px] shrink-0 rounded-2xl border border-white/60 p-5"
+          >
+            <div className="flex items-center gap-3">
+              <div
+                className={`grid h-10 w-10 place-items-center rounded-full text-sm font-semibold text-white ${
+                  [
+                    "bg-emerald-600",
+                    "bg-sky-600",
+                    "bg-rose-600",
+                    "bg-amber-600",
+                    "bg-violet-600",
+                    "bg-teal-600",
+                  ][i % 6]
+                }`}
+              >
+                {testimonial.name
+                  .split(" ")
+                  .map((n) => n[0])
+                  .join("")
+                  .slice(0, 2)}
               </div>
+              <div>
+                <div className="font-medium text-slate-900">{testimonial.name}</div>
+                <div className="text-xs text-slate-500">{translate(testimonial.roleKey)}</div>
+              </div>
+            </div>
 
-              <p className="mt-4 text-slate-700">“{t.quote}”</p>
+            <p className="mt-4 text-slate-700">"{translate(testimonial.quoteKey)}"</p>
 
               <div className="mt-4 flex items-center gap-1">
                 {Array.from({ length: 5 }).map((_, k) => (
-                  <Star key={k} filled={k < (t.rating ?? 5)} />
+                  <Star key={k} filled={k < (testimonial.rating ?? 5)} />
                 ))}
               </div>
             </li>

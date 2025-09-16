@@ -5,6 +5,8 @@ import { usePathname } from "next/navigation";
 import { useEffect, useId, useRef, useState } from "react";
 import Image from "next/image";
 import { SERVICES, SECTION_ORDER, SECTION_LABELS, servicePath } from "@/lib/data";
+import { useLanguage } from "@/contexts/LanguageContext";
+import LanguageSwitcher from "./LanguageSwitcher";
 
 function cn(...classes: Array<string | false | undefined>) {
   return classes.filter(Boolean).join(" ");
@@ -12,6 +14,7 @@ function cn(...classes: Array<string | false | undefined>) {
 
 export default function Navbar() {
   const pathname = usePathname();
+  const { t } = useLanguage();
 
   // Desktop dropdown state
   const [open, setOpen] = useState(false);
@@ -196,16 +199,18 @@ export default function Navbar() {
             </div>
           </div>
 
-          <NavLink href="/projets" label="Projets" />
-          <NavLink href="/equipe" label="Équipe" />
-          <NavLink href="/temoignages" label="Témoignages" />
+          <NavLink href="/projets" label={t('nav.projects')} />
+          <NavLink href="/equipe" label={t('nav.team')} />
+          <NavLink href="/temoignages" label={t('nav.testimonials')} />
 
           <Link
             href="/soumission"
             className="rounded-full bg-emerald-500 px-4 py-2 text-sm font-semibold text-emerald-950 hover:bg-emerald-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-300"
           >
-            Soumission
+            {t('nav.quote')}
           </Link>
+          
+          <LanguageSwitcher />
         </div>
 
         {/* Mobile hamburger */}
@@ -273,26 +278,31 @@ export default function Navbar() {
               href="/projets"
               className="rounded-lg bg-white/5 px-3 py-2 text-center text-sm text-neutral-100 hover:bg-white/10"
             >
-              Projets
+              {t('nav.projects')}
             </Link>
             <Link
               href="/equipe"
               className="rounded-lg bg-white/5 px-3 py-2 text-center text-sm text-neutral-100 hover:bg-white/10"
             >
-              Équipe
+              {t('nav.team')}
             </Link>
             <Link
               href="/temoignages"
               className="rounded-lg bg-white/5 px-3 py-2 text-center text-sm text-neutral-100 hover:bg-white/10"
             >
-              Témoignages
+              {t('nav.testimonials')}
             </Link>
             <Link
               href="/soumission"
               className="rounded-lg bg-emerald-500 px-3 py-2 text-center text-sm font-semibold text-emerald-950 hover:bg-emerald-400"
             >
-              Soumission
+              {t('nav.quote')}
             </Link>
+          </div>
+          
+          {/* Language Switcher for Mobile */}
+          <div className="mt-4 flex justify-center">
+            <LanguageSwitcher />
           </div>
         </div>
       </div>

@@ -1,5 +1,12 @@
 "use client";
 
-export function SmoothScrollProvider({ children }: { children: any }) {
-  return <>{children}</>;
+import React from 'react';
+import { LanguageProvider } from '@/contexts/LanguageContext';
+
+export function SmoothScrollProvider({ children }: { children: React.ReactNode }) {
+  return (
+    <LanguageProvider>
+      {children}
+    </LanguageProvider>
+  );
 }

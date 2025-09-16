@@ -44,7 +44,7 @@ export const metadata: Metadata = {
 
 export default function Page() {
   return (
-    <main>
+    <>
       <Hero />
       <BloomSection />
       <GrowthStory />
@@ -56,6 +56,6 @@ export default function Page() {
       <Testimonials />
       <SocialsBar />
       <Footer />
-    </main>
+    </>
   );
 }

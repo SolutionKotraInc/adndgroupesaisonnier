@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Image from "next/image";
 
 interface BeforeAfterImage {
   before: string;
@@ -18,6 +19,7 @@ export default function BeforeAfterSlider({ images, className = "" }: BeforeAfte
   const [currentIndex, setCurrentIndex] = useState(0);
   const [sliderPosition, setSliderPosition] = useState(50);
   const [isDragging, setIsDragging] = useState(false);
+  const [imagesLoaded, setImagesLoaded] = useState<boolean[]>(new Array(images.length).fill(false));
 
   const currentImage = images[currentIndex];
 
@@ -65,14 +67,44 @@ export default function BeforeAfterSlider({ images, className = "" }: BeforeAfte
     setIsDragging(false);
   };
 
-  // Auto-play functionality
+  // Handle image loading
+  const handleImageLoad = (index: number) => {
+    setImagesLoaded(prev => {
+      const newState = [...prev];
+      newState[index] = true;
+      return newState;
+    });
+  };
+
+  // Preload first image on mount
   useEffect(() => {
+    if (!imagesLoaded[0]) {
+      const img = new window.Image();
+      img.src = images[0].before;
+      img.onload = () => handleImageLoad(0);
+    }
+  }, [images, imagesLoaded]);
+
+  // Preload next image
+  useEffect(() => {
+    const nextIndex = (currentIndex + 1) % images.length;
+    if (!imagesLoaded[nextIndex]) {
+      const img = new window.Image();
+      img.src = images[nextIndex].before;
+      img.onload = () => handleImageLoad(nextIndex);
+    }
+  }, [currentIndex, images, imagesLoaded]);
+
+  // Auto-play functionality (only when images are loaded)
+  useEffect(() => {
+    if (!imagesLoaded[currentIndex]) return;
+    
     const interval = setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % images.length);
     }, 5000);
 
     return () => clearInterval(interval);
-  }, [images.length]);
+  }, [images.length, imagesLoaded, currentIndex]);
 
   if (!currentImage) return null;
 
@@ -94,8 +126,8 @@ export default function BeforeAfterSlider({ images, className = "" }: BeforeAfte
           className="relative overflow-hidden rounded-2xl shadow-2xl cursor-ew-resize select-none"
           style={{ 
             width: '100%',
-            height: '500px',
-            maxWidth: '900px',
+            height: '400px',
+            maxWidth: '800px',
             margin: '0 auto'
           }}
           onMouseMove={handleMouseMove}
@@ -104,18 +136,28 @@ export default function BeforeAfterSlider({ images, className = "" }: BeforeAfte
           onTouchMove={handleTouchMove}
           onTouchEnd={handleTouchEnd}
         >
+          {/* Loading state */}
+          {!imagesLoaded[currentIndex] && (
+            <div className="absolute inset-0 bg-gradient-to-br from-gray-100 to-gray-200 animate-pulse flex items-center justify-center">
+              <div className="flex flex-col items-center gap-3">
+                <div className="w-8 h-8 border-2 border-emerald-500 border-t-transparent rounded-full animate-spin"></div>
+                <div className="text-gray-500 text-sm">Chargement de l'image...</div>
+              </div>
+            </div>
+          )}
+
           {/* Before Image - Full container */}
-          <div 
-            className="absolute inset-0"
-            style={{ 
-              backgroundImage: `url(${currentImage.before})`,
-              backgroundSize: 'cover',
-              backgroundPosition: 'center',
-              backgroundRepeat: 'no-repeat',
-              width: '100%',
-              height: '100%'
-            }}
-          />
+          <div className="absolute inset-0">
+            <Image
+              src={currentImage.before}
+              alt={`Avant - ${currentImage.title || 'Transformation'}`}
+              fill
+              className="object-cover"
+              priority={currentIndex === 0}
+              onLoad={() => handleImageLoad(currentIndex)}
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            />
+          </div>
 
           {/* After Image - Same size, clipped */}
           <div
@@ -123,13 +165,18 @@ export default function BeforeAfterSlider({ images, className = "" }: BeforeAfte
             style={{ 
               width: `${sliderPosition}%`,
               height: '100%',
-              overflow: 'hidden',
-              backgroundImage: `url(${currentImage.after})`,
-              backgroundSize: 'cover',
-              backgroundPosition: 'center',
-              backgroundRepeat: 'no-repeat'
+              overflow: 'hidden'
             }}
-          />
+          >
+            <Image
+              src={currentImage.after}
+              alt={`Après - ${currentImage.title || 'Transformation'}`}
+              fill
+              className="object-cover"
+              priority={currentIndex === 0}
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            />
+          </div>
 
           {/* Labels */}
           <div className="absolute top-4 left-4 bg-red-500 text-white px-4 py-2 rounded-full text-sm font-bold shadow-lg z-20">

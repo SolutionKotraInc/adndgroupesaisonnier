@@ -18,16 +18,16 @@ export default function OptimizedImage({
   onError,
   placeholder = "blur",
   blurDataURL,
-  priority = true, // Force priority loading by default
-  loading = "eager", // Force eager loading by default
+  priority = false, // Default to lazy loading
+  loading = "lazy", // Default to lazy loading
   ...props
 }: OptimizedImageProps) {
   const [isLoading, setIsLoading] = useState(true);
   const [hasError, setHasError] = useState(false);
 
-  // Preload the image immediately when component mounts
+  // Only preload if priority is true
   useEffect(() => {
-    if (src) {
+    if (src && priority) {
       const img = new window.Image();
       img.onload = () => {
         setIsLoading(false);
@@ -40,7 +40,7 @@ export default function OptimizedImage({
       };
       img.src = src;
     }
-  }, [src, onLoad, onError]);
+  }, [src, onLoad, onError, priority]);
 
   const handleLoad = () => {
     setIsLoading(false);
@@ -69,8 +69,10 @@ export default function OptimizedImage({
 
   return (
     <div className={`relative ${className}`}>
-      {isLoading && (
-        <div className="absolute inset-0 bg-gray-200 animate-pulse rounded" />
+      {isLoading && priority && (
+        <div className="absolute inset-0 bg-gray-200 animate-pulse rounded flex items-center justify-center">
+          <div className="w-6 h-6 border-2 border-gray-400 border-t-transparent rounded-full animate-spin"></div>
+        </div>
       )}
       <Image
         src={src}
@@ -82,7 +84,7 @@ export default function OptimizedImage({
         priority={priority}
         loading={loading}
         className={`transition-opacity duration-300 ${
-          isLoading ? 'opacity-0' : 'opacity-100'
+          isLoading && priority ? 'opacity-0' : 'opacity-100'
         }`}
         {...props}
       />

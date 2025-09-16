@@ -8,14 +8,28 @@ import {
   SERVICES_BY_CATEGORY,
   servicePath,
 } from "@/lib/data";
+import { useLanguage } from "@/contexts/LanguageContext";
+import { useTranslatedServices, useTranslatedSectionLabels } from "@/lib/translations";
 
 export default function ServicesList() {
+  const { t } = useLanguage();
+  const translatedServices = useTranslatedServices();
+  const translatedSectionLabels = useTranslatedSectionLabels();
+  
+  // Regrouper les services traduits par catégorie
+  const translatedServicesByCategory = SECTION_ORDER.reduce(
+    (acc, cat) => {
+      acc[cat] = translatedServices.filter((s) => s.category === cat);
+      return acc;
+    },
+    {} as Record<typeof SECTION_ORDER[0], typeof translatedServices>
+  );
+  
   return (
     <section id="services" className="mx-auto max-w-7xl px-4 py-20">
-      <h2 className="text-2xl md:text-4xl font-semibold">Nos services</h2>
+      <h2 className="text-2xl md:text-4xl font-semibold">{t('services.title')}</h2>
       <p className="mt-3 max-w-2xl text-gray-600">
-        Des solutions claires et efficaces pour la maison et les espaces
-        commerciaux.
+        {t('services.subtitle')}
       </p>
 
       {/* navigation d'ancrage */}
@@ -26,21 +40,21 @@ export default function ServicesList() {
             href={`#${cat}`}
             className="rounded-full border border-black/10 bg-white/60 px-3 py-1 text-sm text-gray-700 hover:bg-white"
           >
-            {SECTION_LABELS[cat]}
+            {translatedSectionLabels[cat]}
           </a>
         ))}
       </nav>
 
       <div className="mt-12 space-y-16">
         {SECTION_ORDER.map((cat) => {
-          const list = SERVICES_BY_CATEGORY[cat] ?? [];
+          const list = translatedServicesByCategory[cat] ?? [];
           if (!list.length) return null;
 
           return (
             <div id={cat} key={cat} className="scroll-mt-28">
               <div className="mb-6 flex items-end justify-between">
                 <h3 className="text-3xl font-bold tracking-tight">
-                  {SECTION_LABELS[cat]}
+                  {translatedSectionLabels[cat]}
                 </h3>
                 <a
                   href={`#${cat}`}
@@ -94,7 +108,7 @@ export default function ServicesList() {
                       ) : null}
 
                       <span className="mt-4 inline-flex items-center gap-1 text-sm text-[var(--brand,#2F6FE4)]">
-                        En savoir plus
+                        {t('services.learn.more')}
                         <svg
                           className="h-4 w-4 transition group-hover:translate-x-0.5"
                           viewBox="0 0 24 24"

@@ -1,8 +1,13 @@
+"use client";
+
 import Link from "next/link";
 import Image from "next/image";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 // components/Footer.tsx
 export default function Footer() {
+  const { t } = useLanguage();
+  
   return (
     <footer className="relative mt-24 border-t border-slate-200 bg-white">
       {/* Décor à droite (grille + dégradés) */}
@@ -26,8 +31,7 @@ export default function Footer() {
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/logo.svg" alt="ADND" className="h-9 w-auto" />
             <p className="mt-5 max-w-md text-balance text-slate-600">
-              Aménagement paysager durable pour résidences et entreprises —
-              qualité, propreté et respect des délais, saison après saison.
+              {t('footer.description')}
             </p>
 
             <div className="mt-7 flex flex-wrap gap-3">
@@ -36,7 +40,7 @@ export default function Footer() {
                 className="group inline-flex items-center gap-2 rounded-full bg-emerald-600 px-5 py-2.5 text-white shadow-sm transition
                            hover:-translate-y-0.5 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2"
               >
-                <span className="translate-y-px">Demander une soumission</span>
+                <span className="translate-y-px">{t('footer.request.quote')}</span>
                 <span
                   aria-hidden
                   className="block h-[1px] w-4 origin-left scale-x-0 bg-white/80 transition group-hover:scale-x-100"
@@ -47,7 +51,7 @@ export default function Footer() {
                 className="inline-flex items-center gap-2 rounded-full border border-slate-300 px-5 py-2.5 text-slate-700 transition
                            hover:-translate-y-0.5 hover:bg-slate-50"
               >
-                Écrire un courriel
+{t('footer.write.email')}
               </a>
             </div>
           </div>
@@ -55,27 +59,27 @@ export default function Footer() {
           {/* Sections (tes 4 onglets) */}
           <div>
             <div className="text-sm font-semibold tracking-wide text-slate-900">
-              Sections
+              {t('footer.sections.title')}
             </div>
             <ul className="mt-3 space-y-2 text-sm text-slate-600">
               <li>
                 <a className="link-underline" href="#services">
-                  Services
+                  {t('nav.services')}
                 </a>
               </li>
               <li>
                 <a className="link-underline" href="#realisations">
-                  Réalisations
+                  {t('footer.sections.projects')}
                 </a>
               </li>
               <li>
                 <a className="link-underline" href="#equipe">
-                  Équipe
+                  {t('nav.team')}
                 </a>
               </li>
               <li>
                 <a className="link-underline" href="#temoignages">
-                  Témoignages
+                  {t('nav.testimonials')}
                 </a>
               </li>
             </ul>
@@ -84,7 +88,7 @@ export default function Footer() {
           {/* Contact */}
           <div className="relative">
             <div className="text-sm font-semibold tracking-wide text-slate-900">
-              Nous joindre
+              {t('footer.contact.title')}
             </div>
             <ul className="mt-3 space-y-2 text-sm text-slate-600">
               <li>
@@ -100,24 +104,23 @@ export default function Footer() {
                   +1 (514) 555-0123
                 </a>
               </li>
-              <li>Rive-Nord de Montréal, QC</li>
+              <li>{t('footer.contact.location')}</li>
             </ul>
 
-            {/* petite carte “verre” pour le look */}
+            {/* petite carte "verre" pour le look */}
             <div className="mt-6 rounded-2xl border border-slate-200/80 bg-white/70 p-4 backdrop-blur-sm shadow-[0_10px_30px_-12px_rgba(15,23,42,0.18)]">
               <div className="text-xs uppercase tracking-widest text-slate-500">
-                Disponibilités
+                {t('footer.availability.title')}
               </div>
               <div className="mt-1 text-sm text-slate-700">
-                Réponse sous 24–48 h (jours ouvrables)
+                {t('footer.availability.description')}
               </div>
             </div>
           </div>
         </div>
 
         <div className="mt-8 border-t border-slate-200 pt-6 text-start text-sm text-slate-500">
-          © {new Date().getFullYear()} ADND — Tous droits réservés · Construit
-          et imaginé par{" "}
+          © {new Date().getFullYear()} ADND — {t('footer.copyright')} · {t('footer.built.by')}{" "}
           <Link
             href="https://kotra.app"
             target="_blank"

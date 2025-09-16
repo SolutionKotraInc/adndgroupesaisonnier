@@ -1,8 +1,6 @@
 // app/services/page.tsx
 import Link from "next/link";
 import ServicesHero from "@/components/ServicesHero";
-import BeforeAfterSlider from "@/components/BeforeAfterSlider";
-import { BEFORE_AFTER_IMAGES } from "@/lib/beforeAfterData";
 import FAQ from "@/components/FAQ";
 import SocialsBar from "@/components/SocialsBar";
 
@@ -114,11 +112,6 @@ export default function ServicesPage() {
       </div>
 
       {/* Sections additionnelles */}
-      <section className="py-16 bg-gradient-to-b from-white to-gray-50">
-        <div className="container mx-auto max-w-7xl px-4">
-          <BeforeAfterSlider images={BEFORE_AFTER_IMAGES} />
-        </div>
-      </section>
       <FAQ />
       <SocialsBar />
     </>

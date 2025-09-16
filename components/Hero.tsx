@@ -3,8 +3,11 @@
 import Image from "next/image";
 import { motion, useMotionValue, useSpring } from "framer-motion";
 import { useEffect } from "react";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 export default function Hero() {
+  const { t } = useLanguage();
+  
   // subtle parallax on the heading
   const x = useMotionValue(0);
   const y = useMotionValue(0);
@@ -45,13 +48,12 @@ export default function Hero() {
           style={{ x: springX, y: springY }}
           className="text-4xl md:text-6xl font-semibold leading-tight max-w-3xl text-gray-900"
         >
-          Aménagement paysager <span className="text-brand-700">familial</span>{" "}
-          et durable.
+          {t('hero.title')} <span className="text-brand-700">{t('hero.title.highlight')}</span>{" "}
+          {t('hero.title.end')}
         </motion.h1>
 
         <p className="mt-6 max-w-2xl text-gray-700">
-          Conception, réalisation et entretien d’espaces verts où il fait bon se
-          réunir.
+          {t('hero.subtitle')}
         </p>
 
         <div className="mt-8 flex gap-4">
@@ -59,13 +61,13 @@ export default function Hero() {
             href="/services"
             className="px-5 py-3 rounded-full bg-brand-600 text-white font-medium"
           >
-            Découvrir nos services
+            {t('hero.services.btn')}
           </a>
           <a
             href="/soumission"
             className="px-5 py-3 rounded-full border border-gray-300 bg-white/80 backdrop-blur"
           >
-            Contact
+            {t('hero.contact.btn')}
           </a>
         </div>
       </div>

@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { motion, useScroll, useTransform } from "framer-motion";
 import Reveal from "./Reveal";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const BLOOMS = [
   { src: "/flowers/leaf-1.svg", x: "8%", y: "10%", r: -12 },
@@ -33,6 +34,7 @@ const item = {
 export default function BloomSection() {
   const { scrollYProgress } = useScroll();
   const driftY = useTransform(scrollYProgress, [0, 1], ["0px", "-60px"]);
+  const { t } = useLanguage();
 
   return (
     <section className="relative overflow-hidden bg-gradient-to-b from-[#022400] to-[#022400]">
@@ -66,14 +68,12 @@ export default function BloomSection() {
         <div className="grid md:grid-cols-2 gap-10 items-center">
           <Reveal>
             <h2 className="text-4xl md:text-6xl font-semibold text-white leading-tight">
-              Faites fleurir <span className="italic">votre</span> extérieur
+              {t('bloom.title')} <span className="italic">{t('bloom.your')}</span> {t('bloom.outdoor')}
             </h2>
           </Reveal>
           <Reveal delay={0.08}>
             <p className="text-white/90 text-lg">
-              On conçoit des cours conviviales et durables. Des matériaux
-              choisis, un entretien simple et un design pensé pour la famille.
-              Faites pousser un lieu de vie qui vous ressemble.
+              {t('bloom.description')}
             </p>
           </Reveal>
         </div>
@@ -84,13 +84,13 @@ export default function BloomSection() {
               href="/services"
               className="px-5 py-3 rounded-full bg-white text-brand-700 font-medium"
             >
-              Découvrir nos services
+              {t('bloom.discover.services')}
             </a>
             <a
               href="/soumission"
               className="px-5 py-3 rounded-full border border-white/70 text-white hover:bg-white/10"
             >
-              Demander une soumission
+              {t('bloom.request.quote')}
             </a>
           </div>
         </Reveal>

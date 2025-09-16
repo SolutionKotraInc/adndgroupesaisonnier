@@ -2,7 +2,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import Navbar from "../components/Navbar";
-import { SmoothScrollProvider } from "./providers";
+import ClientWrapper from "../components/ClientWrapper";
 import dynamic from "next/dynamic";
 
 import ScrollToTopOnRouteChange from "../components/ScrollToTopOnRouteChange";
@@ -161,11 +161,13 @@ export default function RootLayout({
       <body className="min-h-screen antialiased gradient-radial">
         <WipeCSS /> {/* green wipe (CSS-only) */}
         <ScrollToTopOnRouteChange />
-        <SmoothScrollProvider>
+        <ClientWrapper>
           <Navbar />
-          {children}
-        </SmoothScrollProvider>
-        <QuickDock />
+          <main>
+            {children}
+          </main>
+          <QuickDock />
+        </ClientWrapper>
       </body>
     </html>
   );

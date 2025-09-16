@@ -3,7 +3,7 @@
 import { useEffect, useRef } from "react";
 import { motion, useScroll, useTransform, useInView } from "framer-motion";
 import Reveal from "./Reveal";
-import sectionsJson from "../app/adnd_sections_3points.json";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 type Section = { title: string; points: string[] };
 
@@ -16,8 +16,8 @@ function Step({
   delayBase = 0.08,
 }: {
   n: 1 | 2 | 3;
-  hRef: React.RefObject<HTMLHeadingElement>;
-  pRef: React.RefObject<HTMLParagraphElement>;
+  hRef: React.RefObject<HTMLHeadingElement> | null;
+  pRef: React.RefObject<HTMLParagraphElement> | null;
   defaultTitle: string;
   defaultDesc: string;
   delayBase?: number;
@@ -75,7 +75,7 @@ function Step({
           <div>
             <Reveal delay={delayBase}>
               <h3
-                ref={hRef}
+                ref={hRef || undefined}
                 className={`text-3xl md:text-5xl font-semibold ${n === 1 ? "text-gray-900" : n === 2 ? "text-gray-700" : "text-gray-600"}`}
               >
                 {defaultTitle}
@@ -91,7 +91,7 @@ function Step({
             />
 
             <Reveal delay={delayBase + 0.08}>
-              <p ref={pRef} className="mt-3 text-gray-700 max-w-2xl">
+              <p ref={pRef || undefined} className="mt-3 text-gray-700 max-w-2xl">
                 {defaultDesc}
               </p>
             </Reveal>
@@ -109,29 +109,7 @@ export default function GrowthStory() {
     offset: ["start end", "end start"],
   });
   const bg = useTransform(scrollYProgress, [0, 1], ["#F0FDF4", "#010000"]);
-
-  const h1Ref = useRef<HTMLHeadingElement | null>(null);
-  const p1Ref = useRef<HTMLParagraphElement | null>(null);
-  const h2Ref = useRef<HTMLHeadingElement | null>(null);
-  const p2Ref = useRef<HTMLParagraphElement | null>(null);
-  const h3Ref = useRef<HTMLHeadingElement | null>(null);
-  const p3Ref = useRef<HTMLParagraphElement | null>(null);
-
-  useEffect(() => {
-    const all = (sectionsJson as any)?.sections as Section[] | undefined;
-    if (!all || all.length === 0) return;
-    const s = all[Math.floor(Math.random() * all.length)];
-    const head = (t: string) => (t.includes(" — ") ? t.split(" — ")[0] : t);
-
-    if (h1Ref.current) h1Ref.current.textContent = head(s.points[0]);
-    if (p1Ref.current) p1Ref.current.textContent = s.points[0];
-
-    if (h2Ref.current) h2Ref.current.textContent = head(s.points[1]);
-    if (p2Ref.current) p2Ref.current.textContent = s.points[1];
-
-    if (h3Ref.current) h3Ref.current.textContent = head(s.points[2]);
-    if (p3Ref.current) p3Ref.current.textContent = s.points[2];
-  }, []);
+  const { t } = useLanguage();
 
   return (
     <section ref={ref} className="relative">
@@ -143,24 +121,24 @@ export default function GrowthStory() {
       <div className="space-y-[30vh] md:space-y-[60vh] py-24">
         <Step
           n={1}
-          hRef={h1Ref}
-          pRef={p1Ref}
-          defaultTitle="le plan"
-          defaultDesc="On écoute vos besoins, on mesure l’espace et on récolte vos inspirations."
+          hRef={null}
+          pRef={null}
+          defaultTitle={t('growth.step1.title')}
+          defaultDesc={t('growth.step1.desc')}
         />
         <Step
           n={2}
-          hRef={h2Ref}
-          pRef={p2Ref}
-          defaultTitle="la pousse"
-          defaultDesc="On conçoit en 3D, on choisit les matériaux et on organise le chantier."
+          hRef={null}
+          pRef={null}
+          defaultTitle={t('growth.step2.title')}
+          defaultDesc={t('growth.step2.desc')}
         />
         <Step
           n={3}
-          hRef={h3Ref}
-          pRef={p3Ref}
-          defaultTitle="le jardin"
-          defaultDesc="On réalise, plante et éclaire. Puis on vous remet un plan d’entretien simple."
+          hRef={null}
+          pRef={null}
+          defaultTitle={t('growth.step3.title')}
+          defaultDesc={t('growth.step3.desc')}
         />
       </div>
     </section>

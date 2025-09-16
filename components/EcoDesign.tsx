@@ -2,44 +2,44 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 export default function DesignPerformance() {
+  const { t } = useLanguage();
+  
   return (
     <section className="relative bg-[#0b2a0f] text-white py-10 md:py-16">
       <div className="max-w-7xl mx-auto px-4">
         <p className="text-[12px] md:text-sm tracking-widest text-emerald-300 font-semibold">
-          DESIGN & PERFORMANCE ÉCOLOGIQUE
+          {t('ecodesign.subtitle')}
         </p>
 
         <h2 className="mt-2 text-3xl md:text-5xl font-extrabold leading-tight">
-          Beau, pratique, durable
+          {t('ecodesign.title')}
         </h2>
 
         <p className="mt-4 text-base md:text-lg text-white/80 max-w-3xl">
-          Nous créons des aménagements extérieurs fonctionnels et esthétiques.
-          Chez ADND, nous combinons durabilité, efficacité et confort pour
-          offrir des espaces agréables à vivre, simples à entretenir et adaptés
-          à vos besoins.
+          {t('ecodesign.description')}
         </p>
 
         {/* Cards */}
         <div className="mt-6 md:mt-10 grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
           {[
             {
-              title: "Entretien optimisé",
-              desc: "Services de tonte, taille et nettoyage réguliers.",
+              title: t('ecodesign.card1.title'),
+              desc: t('ecodesign.card1.desc'),
             },
             {
-              title: "Contrôles & entretien",
-              desc: "Plus de désherbage, plates-bandes nettes.",
+              title: t('ecodesign.card2.title'),
+              desc: t('ecodesign.card2.desc'),
             },
             {
-              title: "Ouverture & fermeture",
-              desc: "On prépare et protège votre terrain chaque saison.",
+              title: t('ecodesign.card3.title'),
+              desc: t('ecodesign.card3.desc'),
             },
             {
-              title: "Taillage de haies",
-              desc: "Haies propres, esthétiques et bien entretenues.",
+              title: t('ecodesign.card4.title'),
+              desc: t('ecodesign.card4.desc'),
             },
           ].map((c) => (
             <motion.div
